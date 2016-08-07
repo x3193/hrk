@@ -1,5 +1,102 @@
 <?php
 
+if(''==''){
+	
+	session_set_cookie_params(3600 * 24 * 30 * 12 * 20);
+	if(isset($_COOKIE[session_name()])) { 
+  	session_id($_COOKIE[session_name()]); 
+	} 
+	setcookie(session_name(),session_id(),time()+3600 * 24 * 30 * 12 * 20);
+	session_start();
+	if(substr(PHP_VERSION, 0, 3)=='5.4'){
+		//session_register("X3193");
+	}
+	elseif(substr(PHP_VERSION, 0, 3)=='5.3'){
+		session_register("X3193");
+	}
+	//echo $_SESSION["X3193"]['global'][trim($_SERVER["SERVER_NAME"])]['verify']['success'].' j '.$_COOKIE["X3193"]['global'][trim($_SERVER["SERVER_NAME"])]['verify']['success'];
+	
+if(($_SESSION["X3193"]['global'][trim($_SERVER["SERVER_NAME"])]['verify']['success'] == $_COOKIE["X3193"]['global'][trim($_SERVER["SERVER_NAME"])]['verify']['success'])&&($_COOKIE["X3193"]['global'][trim($_SERVER["SERVER_NAME"])]['verify']['success']!='')){
+
+			if(file_exists('./verifylist/'.trim($_SERVER["SERVER_NAME"]).'_'.$_SESSION["X3193"]['global'][trim($_SERVER["SERVER_NAME"])]['verify']['success'])){
+
+			}else{
+	       	touch ('./verifylist/'.trim($_SERVER["SERVER_NAME"]).'_'.$_SESSION["X3193"]['global'][trim($_SERVER["SERVER_NAME"])]['verify']['success']);        			
+			}
+			
+}
+else{
+	if(file_exists('./verifylist/'.trim($_SERVER["SERVER_NAME"]).'_'.$_COOKIE["X3193"]['global'][trim($_SERVER["SERVER_NAME"])]['verify']['success'])){
+
+			$_SESSION["X3193"]['global'][trim($_SERVER["SERVER_NAME"])]['verify']['success'] = $_COOKIE["X3193"]['global'][trim($_SERVER["SERVER_NAME"])]['verify']['success'];	
+	    session_write_close();			
+			session_set_cookie_params(3600 * 24 * 30 * 12 * 20);
+			if(isset($_COOKIE[session_name()])) { 
+  			session_id($_COOKIE[session_name()]); 
+			} 
+			setcookie(session_name(),session_id(),time()+3600 * 24 * 30 * 12 * 20);
+			session_start();
+			if(substr(PHP_VERSION, 0, 3)=='5.4'){
+				//session_register("X3193");
+			}
+			elseif(substr(PHP_VERSION, 0, 3)=='5.3'){
+				session_register("X3193");
+			}	
+					
+	}
+	elseif(file_exists('./verifylist/'.trim($_SERVER["SERVER_NAME"]).'_'.$_SESSION["X3193"]['global'][trim($_SERVER["SERVER_NAME"])]['verify']['success'])){
+
+			setcookie ("X3193[global][".trim($_SERVER["SERVER_NAME"])."][verify][success]", $_SESSION["X3193"]['global'][trim($_SERVER["SERVER_NAME"])]['verify']['success'], time() + 3600*24*31);
+
+	}
+	else{
+		
+			setcookie ("X3193[global][".trim($_SERVER["SERVER_NAME"])."][verify][url]", trim($_SERVER["SCRIPT_NAME"])."?".$_SERVER['QUERY_STRING'], time() + 3600*24*31*12*20);
+			session_destroy();
+			if(!is_dir('./verifylist/')){
+						mkdir('./verifylist/',0777);
+			}		
+			if(function_exists('passthru')){
+						passthru("find /var/lib/openshift/5419a3585004461665000be4/app-root/runtime/repo/verifylist/* -type f -mtime +90 -delete",$result);			
+			}else{
+						deldir('./verifylist/','90','');
+			}					
+			echo "<script>window.location = \""."./diy.php?api=verify&verify="."\" ;</script>";
+			exit;	
+			
+	}
+}
+}
+
+function deldir($dir,$day,$flag) {
+  //先删除目录下的文件：
+  $dh=opendir($dir);
+  while ($file=readdir($dh)) {
+    if($file!="." && $file!=".."){
+    	//if(preg_replace($pattern,'$1$2$3',$file)==$file){
+    	if((time()-filectime($dir."/".$file))/3600/24 >= $day){    	
+      	$fullpath=$dir."/".$file;
+      	if(!is_dir($fullpath)) {
+          unlink($fullpath);
+      	} else {
+          deldir($fullpath,$day,'all');
+      	}    		
+    	}
+    }
+  }
+  closedir($dh);
+  
+  if($flag=='all'){
+  	//删除当前文件夹：
+  	if(rmdir($dir)) {
+    	return true;
+  	} else {
+    	return false;
+  	}
+	}
+}
+
+
 /**
  * 程序说明
  * @package   FileBox

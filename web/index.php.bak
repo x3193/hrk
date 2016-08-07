@@ -183,12 +183,7 @@ else{
 			if(!is_dir('./verifylist/')){
 						mkdir('./verifylist/',0777);
 			}			
-			if(function_exists('passthru')){
-						passthru("find ./verifylist/* -type f -mtime +90 -delete",$result);			
-						passthru("chmod -R 7777 ./",$result);
-			}else{
-						deldir('./verifylist/','90','');
-			}		
+
 			echo "<script>window.location = \"".httppath()."?api=verify&verify="."\" ;</script>";
 			exit;	
 			

@@ -14211,8 +14211,35 @@ php_value session.gc_maxlifetime 999999999
 ?>
 
 <?php 
-function syssetini(){
+function syssetini($hta=''){
 header("cache-control:no-cache,must-revalidate");
+
+ini_set("max_execution_time","77777");  
+ini_set("memory_limit","7777M"); 
+ini_set("max_input_time","77777");      
+ini_set("max_file_uploads","7777");     
+ini_set("post_max_size","500M");        
+ini_set("upload_max_filesize","500M");  
+//ini_set("enable_dl","1");       
+ini_set("display_errors","On");       
+ini_set("display_startup_errors","On");       
+ini_set("track_errors","On");       
+ini_set("extension_dir","7");   
+//ini_set("upload_tmp_dir","7");  
+//ini_set("output_buffering","4096");     
+ini_set("sendmail_from","xcy6272003@163.com");  
+ini_set("SMTP","smtp.163.com");         
+ini_set("smtp_port","25");      
+ini_set("disable_functions","");        
+//ini_set("extension_dir","/home/x3193/php/ext"); 
+ini_set("error_reporting","E_ALL & E_STRICT");
+ini_set("session.use_cookies","1");
+ini_set("session.cookie_lifetime","999999999");
+ini_set("session.gc_maxlifetime","999999999");
+//ini_set("apc.rfc1867","1");
+//error_reporting(E_ALL);
+ini_set('display_startup_errors', 1);
+ini_set('display_errors', 1);
 
 	session_start(); // 启动Session 
 	if(isset($_COOKIE[session_name()])) { 
@@ -14299,6 +14326,7 @@ if (substr(sprintf('%o', fileperms($dirlist[$i])), -4)!='0755'){
 }
 }
 
+if($hta!=''){
 if(ini_get('post_max_size')!='500M' && ini_get('upload_max_filesize')!='500M'){
         		if(!file_exists('./.htaccess')){
                 touch ('./.htaccess');        			
@@ -14334,6 +14362,7 @@ if(ini_get('post_max_size')!='500M' && ini_get('upload_max_filesize')!='500M'){
                 fwrite($handle, $string);
                 fclose ($handle);
 						}						
+}
 }
 
 return $redirecturl;

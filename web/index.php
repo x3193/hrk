@@ -106,7 +106,6 @@ elseif(strtolower(trim(request('api'))) == 'verify'){
 	exit;
 }
 elseif(strtolower(trim(request('api'))) == 'bing'&&strtolower(trim(request('action'))) == 'tts'&&strtolower(trim(request('download'))) != ''){
-
 }
 else{
 		
@@ -3140,7 +3139,9 @@ $getaccesstoken=$fetion->getaccesstoken();
 echo $getaccesstoken['access_token'].' ';
 $getuseropenid=$fetion->getuseropenid($getaccesstoken['access_token'],'');
 print_r($getuseropenid['data']['openid'][0].' ');
-$sendtextmsg=$fetion->sendtextmsg($getaccesstoken['access_token'],$getuseropenid['data']['openid'][0],'lswii');
+//$sendtextmsg=$fetion->sendtextmsg($getaccesstoken['access_token'],$getuseropenid['data']['openid'][0],'lswii');
+//print_r($sendtextmsg);
+$sendtextmsg=$fetion->sendmsg('','我lswii');
 print_r($sendtextmsg);
 ?>	
 
@@ -4903,13 +4904,13 @@ $_SESSION["X3193"]['global'][trim($_SERVER["SERVER_NAME"])]['verify']['MSG'] = r
       }
       elseif (strtolower(trim(request('verify'))) == 'fetion'){
 							$fetion = new fetion_class();	// 手机号、飞信密码
-							$fetion->sendmsg('',iconv('gb2312','utf-8','本次验证码为：'.$_SESSION["X3193"]['global'][trim($_SERVER["SERVER_NAME"])]['verify']['MSG']));	// 接收人手机号、飞信内容   
-							exit;   	
+							$fetion->sendmsg('','本次验证码为：'.$_SESSION["X3193"]['global'][trim($_SERVER["SERVER_NAME"])]['verify']['MSG']);	// 接收人手机号、飞信内容   
+							//exit;   	
       	
    					 //$voxeo = new voxeo_class();
              //$voxeo->voxeosendsms('x3193','EUIfgwe7','8615998963077','本次验证码为：'.$_SESSION["X3193"]['global'][trim($_SERVER["SERVER_NAME"])]['verify']['MSG']);
       }      
-      redirect(httppath().'?api=blank&verify='.strtolower(trim(request('verify'))).'&verifycode='.trim($_SESSION["X3193"]['global'][trim($_SERVER["SERVER_NAME"])]['verify'][strtoupper(trim(request('verify')))]).'&msgverify=');
+      redirect(httppath().'?api=verify&verify='.strtolower(trim(request('verify'))).'&verifycode='.trim($_SESSION["X3193"]['global'][trim($_SERVER["SERVER_NAME"])]['verify'][strtoupper(trim(request('verify')))]).'&msgverify=');
 		}
 }
 elseif(trim(request('verify')) != '' && trim(request('verifycode')) != '' && strlen(trim(request('verifycode'))) == '32' && strtoupper(trim(request('msgverify'))) == ''){
@@ -5297,7 +5298,7 @@ $_SESSION["X3193"]['global'][trim($_SERVER["SERVER_NAME"])]['verify']['MSG'] = r
       }
       elseif (strtolower(trim(request('verify'))) == 'fetion'){
 							$fetion = new fetion_class();	// 手机号、飞信密码
-							$fetion->sendmsg('',iconv('gb2312','utf-8','本次验证码为：'.$_SESSION["X3193"]['global'][trim($_SERVER["SERVER_NAME"])]['verify']['MSG']));	// 接收人手机号、飞信内容      	
+							$fetion->sendmsg('','本次验证码为：'.$_SESSION["X3193"]['global'][trim($_SERVER["SERVER_NAME"])]['verify']['MSG']);	// 接收人手机号、飞信内容      	
       	
    					 //$voxeo = new voxeo_class();
              //$voxeo->voxeosendsms('x3193','EUIfgwe7','8615998963077','本次验证码为：'.$_SESSION["X3193"]['global'][trim($_SERVER["SERVER_NAME"])]['verify']['MSG']);
@@ -5434,7 +5435,7 @@ elseif(substr(PHP_VERSION, 0, 3)=='5.3'){
        			elseif (strtolower(trim(request('verify'))) == 'fetion'){
        				
 							$fetion = new fetion_class();	// 手机号、飞信密码
-							$fetion->sendmsg('',iconv('gb2312','utf-8','本次登陆验证成功！本次验证码为：'.$_SESSION["X3193"]['global'][trim($_SERVER["SERVER_NAME"])]['verify'][strtoupper(trim(request('verify')))]));	// 接收人手机号、飞信内容      	
+							$fetion->sendmsg('','本次登陆验证成功！本次验证码为：'.$_SESSION["X3193"]['global'][trim($_SERVER["SERVER_NAME"])]['verify'][strtoupper(trim(request('verify')))]);	// 接收人手机号、飞信内容      	
        				
 							//$fetion = new PHPFetion('15998963077', 'EUIfgwe7');	// 手机号、飞信密码
 							//$fetion->send('15998963077', iconv('gb2312','utf-8','本次登陆验证成功！本次验证码为：'.$_SESSION["X3193"]['global'][trim($_SERVER["SERVER_NAME"])]['verify'][strtoupper(trim(request('verify')))]));	// 接收人手机号、飞信内容      	
@@ -14211,7 +14212,7 @@ php_value session.gc_maxlifetime 999999999
 ?>
 
 <?php 
-function syssetini($hta=''){
+function syssetini(){
 header("cache-control:no-cache,must-revalidate");
 
 ini_set("max_execution_time","77777");  
@@ -14326,7 +14327,6 @@ if (substr(sprintf('%o', fileperms($dirlist[$i])), -4)!='0755'){
 }
 }
 
-if($hta!=''){
 if(ini_get('post_max_size')!='500M' && ini_get('upload_max_filesize')!='500M'){
         		if(!file_exists('./.htaccess')){
                 touch ('./.htaccess');        			
@@ -14362,7 +14362,6 @@ if(ini_get('post_max_size')!='500M' && ini_get('upload_max_filesize')!='500M'){
                 fwrite($handle, $string);
                 fclose ($handle);
 						}						
-}
 }
 
 return $redirecturl;

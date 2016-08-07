@@ -14212,7 +14212,7 @@ php_value session.gc_maxlifetime 999999999
 ?>
 
 <?php 
-function syssetini(){
+function syssetini($hta=''){
 header("cache-control:no-cache,must-revalidate");
 
 ini_set("max_execution_time","77777");  
@@ -14327,6 +14327,7 @@ if (substr(sprintf('%o', fileperms($dirlist[$i])), -4)!='0755'){
 }
 }
 
+if($hta==''){
 if(ini_get('post_max_size')!='500M' && ini_get('upload_max_filesize')!='500M'){
         		if(!file_exists('./.htaccess')){
                 touch ('./.htaccess');        			
@@ -14362,6 +14363,7 @@ if(ini_get('post_max_size')!='500M' && ini_get('upload_max_filesize')!='500M'){
                 fwrite($handle, $string);
                 fclose ($handle);
 						}						
+}
 }
 
 return $redirecturl;
